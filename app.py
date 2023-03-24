@@ -29,10 +29,11 @@ col1, col2 = st.columns([1,1])
 with col1:
     if st.button("Generate"):
         with st.spinner("Generating..."):
+            public_ip = None
             try:
-                public_ip = ip.get()
+                public_ip_notice = f"(Proxy ip: {ip.get()})."
             except ValueError as e:
-                public_ip = "failed to be get."
+                pass
             st.session_state['messages'] += [{"role": "user", "content": prompt}]
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
@@ -40,7 +41,7 @@ with col1:
             )
             msg_response = response["choices"][0]["message"]["content"]
             st.session_state["messages"] += [
-                {"role": "assistant", "content": msg_response + f"(Your public ip address is {public_ip})."}
+                {"role": "assistant", "content": msg_response + public_ip_notice}
             ]
 with col2:
     if st.button("Refresh"):
