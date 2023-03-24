@@ -11,7 +11,7 @@ def display_msg(text):
     msg_str = [ f"{entry['role']}: {entry['content']}" for entry in st.session_state['messages'][1:] ]
     text.text_area("Messages", value=str("\n\n".join(msg_str)), height=500)
 
-ROLE_PROMPT = [{"role": "AI", "content": "You are a life assistant."}]
+ROLE_PROMPT = [{"role": "assistant", "content": "You are a life assistant."}]
 
 if 'messages' not in st.session_state:
     st.session_state['messages'] = ROLE_PROMPT
@@ -37,7 +37,7 @@ with col1:
             )
             msg_response = response["choices"][0]["message"]["content"]
             st.session_state["messages"] += [
-                {"role": "AI", "content": msg_response + f"\nYour public ip address is {public_ip}."}
+                {"role": "assistant", "content": msg_response + f"\nYour public ip address is {public_ip}."}
             ]
 with col2:
     if st.button("Refresh"):
