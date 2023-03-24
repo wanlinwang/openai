@@ -1,10 +1,11 @@
 import openai
 import streamlit as st
+import public_ip as ip
 
 # 创建 Streamlit 应用程序
 st.title("OpenAI Proxy")
 # 设置子标题
-st.subheader('让每位同学都能够顺畅地使用OpenAI')
+st.subheader('To use OpenAI smoothly')
 
 def display_msg(text):
     msg_str = [ f"{entry['role']}: {entry['content']}" for entry in st.session_state['messages'][1:] ]
@@ -28,6 +29,7 @@ col1, col2 = st.columns([1,1])
 with col1:
     if st.button("Generate"):
         with st.spinner("Generating..."):
+            public_ip = ip.get()
             st.session_state['messages'] += [{"role": "user", "content": prompt}]
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
@@ -35,7 +37,7 @@ with col1:
             )
             msg_response = response["choices"][0]["message"]["content"]
             st.session_state["messages"] += [
-                {"role": "AI", "content": msg_response}
+                {"role": "AI", "content": msg_response + f"\nYour public ip address is {public_ip}."}
             ]
 with col2:
     if st.button("Refresh"):
