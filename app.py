@@ -8,13 +8,7 @@ st.title("OpenAI Proxy")
 st.subheader('To use OpenAI smoothly')
 
 def display_msg(text):
-    msg_str = [ 
-        f"{entry['role'].replace('user', 'Me').replace('system', 'AI')}: {entry['content']}" 
-        if 
-            len(entry['content']) <= 2 
-        else 
-            f"{entry['role'].replace('user', 'Me').replace('system', 'AI')}: \n{entry['content']}"
-        for entry in st.session_state['messages'][1:] ]
+    msg_str = [ f"{entry['role'].replace('user', '🤔').replace('system', '💻')}: \n{entry['content']}" for entry in st.session_state['messages'][1:] ]
     text.text_area("Messages", value=str("\n\n".join(msg_str)), height=500)
 
 INITIAL_PROMPT = [{"role": "system", "content": "You are a ai chatbot."}]
