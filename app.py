@@ -37,25 +37,25 @@ col1, col2 = st.columns([1,1])
 with col1:
     if st.button("Generate"):
         with st.spinner("Generating..."):
-
-            public_ip = ""
-            try:
-                public_ip = ip.get()
-            except ValueError as e:
-                pass
-            
-            public_ip_notice = ""
-            if len(public_ip) != 0:
-                public_ip_notice = f"(Proxy ip: {public_ip})"
-
             st.session_state['messages'] += [{"role": "user", "content": prompt}]
             response = openai.ChatCompletion.create(
                 model=model,
                 messages=st.session_state['messages'],
             )
+
+            # public_ip = ""
+            # try:
+            #     public_ip = ip.get()
+            # except ValueError as e:
+            #     pass
+            # public_ip_notice = ""
+            # if len(public_ip) != 0:
+            #     public_ip_notice = f"(Proxy ip: {public_ip})"
+
             msg_response = response["choices"][0]["message"]["content"]
             st.session_state["messages"] += [
-                {"role": "system", "content": msg_response + public_ip_notice}
+                # {"role": "system", "content": msg_response + public_ip_notice}
+                {"role": "system", "content": msg_response}
             ]
 with col2:
     if st.button("Flush"):
