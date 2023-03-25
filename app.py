@@ -11,7 +11,7 @@ def display_msg(text):
     msg_str = [ 
         f"{entry['role'].replace('user', 'Me').replace('system', 'AI')}: {entry['content']}" 
         if 
-            len(entry['content']) <= 1 
+            len(entry['content']) <= 2 
         else 
             f"{entry['role'].replace('user', 'Me').replace('system', 'AI')}: \n{entry['content']}"
         for entry in st.session_state['messages'][1:] ]
