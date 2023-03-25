@@ -11,7 +11,7 @@ st.title("OpenAI Proxy")
 st.subheader('To use OpenAI smoothly')
 
 def display_msg(text):
-    msg_str = [ f"{entry['role'].replace('user', '🤔').replace('system', '💻')} \n{entry['content']}" for entry in st.session_state['messages'][1:] ]
+    msg_str = [ f"{entry['role'].replace('user', '🤔').replace('system', '💻')} {entry['content']}" for entry in st.session_state['messages'][1:] ]
     text.text_area("Messages", value=str("\n\n".join(msg_str)), height=500)
 
 INITIAL_PROMPT = [{"role": "system", "content": "You are an ai chatbot."}]
@@ -20,15 +20,15 @@ if 'messages' not in st.session_state:
     st.session_state['messages'] = INITIAL_PROMPT
 
 # 设置 OpenAI API 密钥
-openai.api_key = st.text_input("Please enter your openai api key", value="", type="password")
+openai.api_key = st.text_input("Paste openai api key here:", value="", type="password")
 
 # 设置模型
 model = st.selectbox(
-    'Which AI model to be used?',
+    'Which AI model would you like to use?',
     ('gpt-3.5-turbo',))
 
 # 用户输入 prompt
-prompt = st.text_input("Prompt", value='')
+prompt = st.text_input("Prompt:", value='')
 
 # 将两个按钮放在同一行
 col1, col2 = st.columns([1,1])
@@ -37,11 +37,17 @@ col1, col2 = st.columns([1,1])
 with col1:
     if st.button("Generate"):
         with st.spinner("Generating..."):
-            public_ip_notice = ""
+
+            public_ip = ""
             try:
-                public_ip_notice = f"(Proxy ip: {ip.get()})."
+                public_ip = ip.get()
             except ValueError as e:
                 pass
+            
+            public_ip_notice = ""
+            if len(public_ip) != 0:
+                public_ip_notice = f"(Proxy ip: {public_ip})"
+
             st.session_state['messages'] += [{"role": "user", "content": prompt}]
             response = openai.ChatCompletion.create(
                 model=model,
@@ -52,7 +58,7 @@ with col1:
                 {"role": "system", "content": msg_response + public_ip_notice}
             ]
 with col2:
-    if st.button("Refresh"):
+    if st.button("Flush"):
         st.session_state["messages"] = INITIAL_PROMPT
 
 text = st.empty()
