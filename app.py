@@ -5,7 +5,7 @@ import public_ip as ip
 # 创建 Streamlit 应用程序
 st.title("OpenAI Proxy")
 # 设置子标题
-st.subheader('To use OpenAI smoothly. Github repo address: https://github.com/wanlinwang/openai')
+st.subheader('To use OpenAI smoothly')
 
 def display_msg(text):
     msg_str = [ f"{entry['role'].replace('user', '🤔').replace('system', '💻')} \n{entry['content']}" for entry in st.session_state['messages'][1:] ]
@@ -54,3 +54,5 @@ with col2:
 
 text = st.empty()
 display_msg(text)
+
+st.text("Github repo address: https://github.com/wanlinwang/openai")
