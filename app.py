@@ -5,13 +5,13 @@ import public_ip as ip
 # 创建 Streamlit 应用程序
 st.title("OpenAI Proxy")
 # 设置子标题
-st.subheader('To use OpenAI smoothly')
+st.subheader('To use OpenAI smoothly. Github repo address: https://github.com/wanlinwang/openai')
 
 def display_msg(text):
-    msg_str = [ f"{entry['role'].replace('user', '🤔').replace('system', '💻')}: \n{entry['content']}" for entry in st.session_state['messages'][1:] ]
+    msg_str = [ f"{entry['role'].replace('user', '🤔').replace('system', '💻')} \n{entry['content']}" for entry in st.session_state['messages'][1:] ]
     text.text_area("Messages", value=str("\n\n".join(msg_str)), height=500)
 
-INITIAL_PROMPT = [{"role": "system", "content": "You are a ai chatbot."}]
+INITIAL_PROMPT = [{"role": "system", "content": "You are an ai chatbot."}]
 
 if 'messages' not in st.session_state:
     st.session_state['messages'] = INITIAL_PROMPT
