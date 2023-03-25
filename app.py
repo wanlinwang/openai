@@ -3,6 +3,9 @@ import streamlit as st
 import public_ip as ip
 
 # 创建 Streamlit 应用程序
+st.set_page_config(
+        page_title="OpenAI Proxy",
+)
 st.title("OpenAI Proxy")
 # 设置子标题
 st.subheader('To use OpenAI smoothly')
