@@ -25,7 +25,8 @@ openai.api_key = st.text_input("Paste openai api key here:", value="", type="pas
 # 设置模型
 model = st.selectbox(
     'Which AI model would you like to use?',
-    ('gpt-3.5-turbo',))
+    ('gpt-3.5-turbo',)
+)
 
 # 用户输入 prompt
 prompt = st.text_input("Prompt:", value='')
