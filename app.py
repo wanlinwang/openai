@@ -37,7 +37,7 @@ model = st.selectbox(
 prompt = st.text_input("Prompt:", value='', key="prompt_input")
 
 # 将两个按钮放在同一行
-col1, col2, col3 = st.columns([1,1,1])
+col1, col2, col3, _, _ = st.columns(5, gap="small")
 
 # 生成回答
 with col1:
@@ -61,8 +61,9 @@ with col2:
     if st.button("Clear Prompt", on_click=clear_prompt):
         st.write(prompt)
 
+# 清空所有对话
 with col3:
-    if st.button("Flush"):
+    if st.button("Clear All"):
         st.session_state["messages"] = INITIAL_PROMPT
 
 text = st.empty()
