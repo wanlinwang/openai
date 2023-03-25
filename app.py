@@ -64,4 +64,6 @@ with col2:
 text = st.empty()
 display_msg(text)
 
-st.text("Github repo address: https://github.com/wanlinwang/openai")
+st.markdown("""
+[Github repo address](https://github.com/wanlinwang/openai)
+""")
