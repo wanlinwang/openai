@@ -8,13 +8,13 @@ st.title("OpenAI Proxy")
 st.subheader('To use OpenAI smoothly')
 
 def display_msg(text):
-    msg_str = [ f"{entry['role'].replace('user', 'Me').replace('assistant', 'AI')}: {' ' + entry['content'] if len(entry['content']) > 1 else entry['content']}" for entry in st.session_state['messages'][1:] ]
+    msg_str = [ f"{entry['role'].replace('user', 'Me').replace('system', 'AI')}: {' ' + entry['content'] if len(entry['content']) > 1 else entry['content']}" for entry in st.session_state['messages'][1:] ]
     text.text_area("Messages", value=str("\n\n".join(msg_str)), height=500)
 
-ROLE_PROMPT = [{"role": "assistant", "content": "You are a life assistant."}]
+INITIAL_PROMPT = [{"role": "system", "content": "You are a ai chatbot."}]
 
 if 'messages' not in st.session_state:
-    st.session_state['messages'] = ROLE_PROMPT
+    st.session_state['messages'] = INITIAL_PROMPT
 
 # 设置 OpenAI API 密钥
 openai.api_key = st.text_input("Please enter your openai api key", value="", type="password")
@@ -46,11 +46,11 @@ with col1:
             )
             msg_response = response["choices"][0]["message"]["content"]
             st.session_state["messages"] += [
-                {"role": "assistant", "content": msg_response + public_ip_notice}
+                {"role": "system", "content": msg_response + public_ip_notice}
             ]
 with col2:
     if st.button("Refresh"):
-        st.session_state["messages"] = ROLE_PROMPT
+        st.session_state["messages"] = INITIAL_PROMPT
 
 text = st.empty()
 display_msg(text)
