@@ -8,7 +8,7 @@ st.title("OpenAI Proxy")
 st.subheader('To use OpenAI smoothly')
 
 def display_msg(text):
-    msg_str = [ f"{entry['role']}: {entry['content']}" for entry in st.session_state['messages'][1:] ]
+    msg_str = [ f"{entry['role'].replace('user', 'Me').replace('assistant', 'AI')}: {entry['content']}" for entry in st.session_state['messages'][1:] ]
     text.text_area("Messages", value=str("\n\n".join(msg_str)), height=500)
 
 ROLE_PROMPT = [{"role": "assistant", "content": "You are a life assistant."}]
@@ -18,6 +18,11 @@ if 'messages' not in st.session_state:
 
 # 设置 OpenAI API 密钥
 openai.api_key = st.text_input("Please enter your openai api key", value="", type="password")
+
+# 设置模型
+model = st.selectbox(
+    'What AI model to be used?',
+    ('gpt-3.5-turbo', 'Home phone', 'Mobile phone'))
 
 # 用户输入 prompt
 prompt = st.text_input("Prompt", value='')
@@ -29,7 +34,7 @@ col1, col2 = st.columns([1,1])
 with col1:
     if st.button("Generate"):
         with st.spinner("Generating..."):
-            public_ip = None
+            public_ip_notice = ""
             try:
                 public_ip_notice = f"(Proxy ip: {ip.get()})."
             except ValueError as e:
