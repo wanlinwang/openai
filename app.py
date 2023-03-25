@@ -21,8 +21,8 @@ openai.api_key = st.text_input("Please enter your openai api key", value="", typ
 
 # 设置模型
 model = st.selectbox(
-    'What AI model to be used?',
-    ('gpt-3.5-turbo', 'Home phone', 'Mobile phone'))
+    'Which AI model to be used?',
+    ('gpt-3.5-turbo'))
 
 # 用户输入 prompt
 prompt = st.text_input("Prompt", value='')
