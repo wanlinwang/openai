@@ -26,7 +26,7 @@ wanlinwang@MacBook-Pro openai % streamlit run  app.py
   and the occasional swag, please enter your email address below. Otherwise,
   leave this field blank.
 
-  Email:  ben.wanlin.wang@gmail.com
+  Email:  yourname@gmail.com
 
   You can find our privacy policy at https://streamlit.io/privacy-policy
 
