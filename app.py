@@ -1,6 +1,5 @@
 import openai
 import streamlit as st
-import public_ip as ip
 
 # 创建 Streamlit 应用程序
 st.set_page_config(
@@ -11,15 +10,16 @@ st.title("OpenAI Proxy")
 st.subheader('To use OpenAI smoothly')
 
 def display_msg(text):
-    msg_str = [ f"{entry['role'].replace('user', '🤔').replace('system', '💻')} {entry['content']}" for entry in st.session_state['messages'][1:] ]
+    msg_str = [f"{entry['role'].replace('user', '🤔').replace('system', '💻')} {entry['content']}" for entry in st.session_state['messages'][1:]]
     text.text_area("Messages", value=str("\n\n".join(msg_str)), height=500)
 
 INITIAL_PROMPT = [{"role": "system", "content": "You are an ai chatbot."}]
 
+# 在session状态里设置会话信息
 if 'messages' not in st.session_state:
     st.session_state['messages'] = INITIAL_PROMPT
 
-# 设置 OpenAI API 密钥
+# 设置 OpenAI API密钥
 openai.api_key = st.text_input("Paste openai api key here:", value="", type="password")
 
 # 设置模型
@@ -43,20 +43,11 @@ with col1:
                 messages=st.session_state['messages'],
             )
 
-            # public_ip = ""
-            # try:
-            #     public_ip = ip.get()
-            # except ValueError as e:
-            #     pass
-            # public_ip_notice = ""
-            # if len(public_ip) != 0:
-            #     public_ip_notice = f"(Proxy ip: {public_ip})"
-
             msg_response = response["choices"][0]["message"]["content"]
             st.session_state["messages"] += [
-                # {"role": "system", "content": msg_response + public_ip_notice}
                 {"role": "system", "content": msg_response}
             ]
+
 with col2:
     if st.button("Flush"):
         st.session_state["messages"] = INITIAL_PROMPT
